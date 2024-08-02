@@ -22,7 +22,7 @@ class Mfa(Base):
 
         Attributes:
             user_uuid (UUID): The UUID of the user.
-            is_setup (Boolean): If the Mfa is setup.
+            is_setting_up (Boolean): If the Mfa is setup.
             setup_at (Encrypted[DateTime]): The date the Mfa was setup.
 
     """
@@ -31,7 +31,7 @@ class Mfa(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_uuid = Column(UUIDType(binary=False), nullable=False)
 
-    is_setup = Column(Boolean, nullable=False, default=False)
+    is_setting_up = Column(Boolean, nullable=False, default=False)
 
     setup_at = Column(EncryptedType(
         DateTime, fetch_encryption_key(), AesEngine
