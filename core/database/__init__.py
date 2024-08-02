@@ -21,6 +21,32 @@ async def gen_tables() -> None:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
+async def init_db(regen=False) -> None:
+    """
+        Initialize the database.
+
+        Args:
+            None
+        
+        Returns:
+            None
+    """
+    if regen:
+        await gen_tables()
+    return (engine, async_session, Base)
+
+async def close_db() -> None:
+    """
+        Close the database.
+
+        Args:
+            None
+        
+        Returns:
+            None
+    """
+    await engine.dispose()
+
 async def get_session() -> AsyncSession: # type: ignore
     """
         Get a new session object.
