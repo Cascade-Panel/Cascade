@@ -1,3 +1,5 @@
+""" The EmailOauth model. """
+
 import datetime
 import uuid
 import pyotp
@@ -32,6 +34,7 @@ class EmailOauth(Base):
     """
     __tablename__ = 'EmailOauth'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_uuid = Column(UUIDType(binary=False), nullable=False)
 
     email = Column(EncryptedType(

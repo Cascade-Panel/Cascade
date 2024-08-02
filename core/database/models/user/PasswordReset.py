@@ -1,3 +1,5 @@
+""" The PasswordReset model."""
+
 import datetime
 import uuid
 import pyotp
@@ -22,9 +24,16 @@ class PasswordReset(Base):
         - A model to store the PasswordReset information.
 
         Attributes:
+            user_uuid (UUID): The UUID of the user.
+            reset_code (Encrypted[String]): The reset code.
+            code_expiry (Encrypted[DateTime]): The expiry date of the reset code.
+            requested_on (Encrypted[DateTime]): The date the reset code was requested.
+            has_been_used (Boolean): True if the reset code has been used, False otherwise.
+            used_on (Encrypted[DateTime]): The date the reset code was used.
     """
     __tablename__ = 'PasswordReset'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_uuid = Column(UUIDType(binary=False), nullable=False)
 
     reset_code = Column(EncryptedType(

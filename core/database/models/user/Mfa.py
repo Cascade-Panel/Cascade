@@ -1,3 +1,5 @@
+""" The Mfa model. """
+
 import datetime
 import uuid
 import pyotp
@@ -19,9 +21,14 @@ class Mfa(Base):
         - A model to store the Mfa information.
 
         Attributes:
+            user_uuid (UUID): The UUID of the user.
+            is_setup (Boolean): If the Mfa is setup.
+            setup_at (Encrypted[DateTime]): The date the Mfa was setup.
+
     """
     __tablename__ = 'Mfa'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_uuid = Column(UUIDType(binary=False), nullable=False)
 
     is_setup = Column(Boolean, nullable=False, default=False)

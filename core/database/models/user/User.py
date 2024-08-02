@@ -1,3 +1,5 @@
+""" The User model. """
+
 import datetime
 import uuid
 import pyotp

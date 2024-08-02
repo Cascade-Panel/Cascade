@@ -1,3 +1,5 @@
+""" The Oauth model. """
+
 import datetime
 import uuid
 import pyotp
@@ -26,6 +28,7 @@ class Oauth(Base):
     """
     __tablename__ = 'Oauth'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_uuid = Column(UUIDType(binary=False), nullable=False) 
     oauth_type = Column(String, nullable=False)
 
