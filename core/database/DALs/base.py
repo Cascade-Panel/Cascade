@@ -1,0 +1,3 @@
+
+class BaseDAL:
+    pass
