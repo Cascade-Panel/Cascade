@@ -20,6 +20,7 @@ charset-normalizer==3.3.2
 colorama==0.4.6
 comm==0.2.2
 contourpy==1.2.1
+cryptography==43.0.0
 cycler==0.12.1
 debugpy==1.8.2
 decorator==5.1.1
@@ -93,6 +94,7 @@ ptyprocess==0.7.0
 pure-eval==0.2.2
 pycparser==2.22
 Pygments==2.18.0
+PyJWT==2.9.0
 pyotp==2.9.0
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
@@ -116,6 +118,7 @@ smmap==5.0.1
 sniffio==1.3.1
 soupsieve==2.5
 SQLAlchemy==2.0.31
+SQLAlchemy-Utils==0.41.2
 stack-data==0.6.3
 sympy==1.13.0
 tenacity==8.5.0
