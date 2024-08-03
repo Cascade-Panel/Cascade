@@ -57,18 +57,6 @@ class ConfigDAL(BaseDAL):
             ValueError: If the config variable is not found.
         """
         return self.db_session.query(Config).filter(Config.key == key).first()
-    
-    async def get_by_name(self, name: str) -> Config | None:
-        """
-            Retrieve a config variable from the database by name.
-
-            Attributes:
-                name (str): The name of the config variable to retrieve.
-            
-            Returns:
-                Config | None: The config variable with the specified name, or None if not found.
-        """
-        return self.db_session.query(Config).filter(Config.name == name).first()
 
     async def update(self, key: str, value: str | int | bool) -> Config:
         """
