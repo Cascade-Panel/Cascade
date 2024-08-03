@@ -10,6 +10,12 @@ class BaseConnector:
     def __init__(self, connection):
         self.connection = connection
 
+    async def __async__init__(self) -> None:
+        """
+        Initializes the caching object.
+        """
+        raise NotImplementedError
+
     async def get(self, key) -> str | dict | list | tuple | object | callable:
         """
         Retrieve a value from the cache based on the key.
