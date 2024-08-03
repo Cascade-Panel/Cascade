@@ -7,6 +7,7 @@ env_manager = EnvManager()
 
 app = Sanic(env_manager.get("APP_NAME"))
 
+app.config.CORS_ORIGINS = "*"
 app.ctx.env_manager = env_manager
 
 app.before_server_start(before_server_start, priority=0)

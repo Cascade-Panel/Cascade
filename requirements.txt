@@ -112,6 +112,7 @@ rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
 rpds-py==0.19.0
 sanic==24.6.0
+sanic-ext==23.12.0
 sanic-routing==23.12.0
 scikit-learn==1.5.1
 scipy==1.14.0

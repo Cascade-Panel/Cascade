@@ -2,8 +2,10 @@
 from sanic import Sanic
 from asyncio import AbstractEventLoop
 from core.database import init_db, close_db
+from core.database.models.user.User import User
 from core.sessions import SessionManager
 from core.cache import CacheManager
+from core.authentication import get_user
 
 async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """
@@ -27,8 +29,12 @@ async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
         REDIS_URL = app.ctx.env_manager.get("REDIS_URL")
         app.ctx.session_manager = SessionManager(connector_type="redis", redis_url=REDIS_URL)
         app.ctx.cache_manager = CacheManager(connector_type="redis", redis_url=REDIS_URL)
+    if CACHE_STORAGE_TYPE == "sqlite":
+        app.ctx.session_manager = SessionManager(connector_type="sqlite", db_path=app.ctx.env_manager.get("CACHE_STORAGE_DB_PATH"))
+        app.ctx.cache_manager = CacheManager(connector_type="sqlite", db_path=app.ctx.env_manager.get("CACHE_STORAGE_DB_PATH"))
 
-
+    # Adding user dependency if it has type hint `: User`
+    app.ext.add_dependency(User, get_user)
 
 async def after_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """

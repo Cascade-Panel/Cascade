@@ -2,7 +2,6 @@
 
 import os
 from typing import Any, Union
-
 from sanic import json
 
 class EnvManager:

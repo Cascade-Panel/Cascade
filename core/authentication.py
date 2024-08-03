@@ -1,31 +1,13 @@
 """ This module provides functions for handling authentication. """
 
-from sanic import BadRequest
-from core.cookies import get_cookie, append_cookie, delete_cookie
+from sanic import BadRequest, text
+from core.cookies import get_cookie, append_cookie, remove_cookie
 
 from core.database.DALs.user.mfa_dal import MfaDAL
 from core.database.DALs.user.user_dal import UserDAL
 from core.database.models.user.User import User
 from core.database.models.user.MfaBackupCodes import MfaBackupCodes
 from core.database.models.user.Mfa import Mfa
-
-COOKIE_IDENTITY = 'our_cookie'
-
-async def get_user(request) -> User:
-    """
-        Get the user from the request.
-
-        Attributes:
-            request (Request): The request object.
-
-        Returns:
-            User: The user.
-    """
-    user_uuid = get_cookie(request, COOKIE_IDENTITY)
-    if user_uuid is None:
-        return None
-
-    return await UserDAL(request.app.db_session).get(user_uuid)
 
 async def is_authorised(request) -> bool:
     """
@@ -37,7 +19,7 @@ async def is_authorised(request) -> bool:
         Returns:
             bool: True if the user is authorised, False otherwise.
     """
-    user_uuid = get_cookie(request, COOKIE_IDENTITY)
+    user_uuid = get_cookie(request, request.app.ctx.env_manager.get("COOKIE_IDENTITY"))
     if user_uuid is None:
         return False
 
@@ -55,6 +37,30 @@ async def is_authorised(request) -> bool:
         return False
 
     return True
+
+async def get_user(request) -> User:
+    """
+        Get the user from the request.
+        - Requires the user to be logged in.
+
+        Attributes:
+            request (Request): The request object.
+
+        Returns:
+            User: The user.
+    """
+    if not is_authorised(request):
+        raise BadRequest('You are not logged in.')
+
+    cookie_data = get_cookie(request, request.app.ctx.env_manager.get("COOKIE_IDENTITY"))
+    
+    user_uuid = cookie_data.get("user_uuid")
+
+    cached_user = request.app.ctx.cache_manager.get(user_uuid)
+
+    if cached_user is None:
+        raise BadRequest('You are not logged in.')
+    return cached_user
 
 async def restricted_to_unverified(request) -> bool:
     """
@@ -108,7 +114,10 @@ async def login(request, user: User) -> None:
     if is_authorised(request):
         raise BadRequest('User is already logged in')
 
-    append_cookie(request, user.uuid, COOKIE_IDENTITY)
+    response = text('Logged in')
+
+    response = append_cookie(request, response, request.app.ctx.env_manager.get("COOKIE_IDENTITY"), {"user_uuid": user.uuid})
+    return response
 
 async def logout(request) -> bool:
     """
@@ -123,5 +132,7 @@ async def logout(request) -> bool:
     if not is_authorised(request):
         raise BadRequest('User is not logged in')
 
-    delete_cookie(request, COOKIE_IDENTITY)
-    return True
+    response = text('Logged out')
+
+    response = remove_cookie(response, request.app.ctx.env_manager.get("COOKIE_IDENTITY"))
+    return response
