@@ -30,6 +30,9 @@ class ConfigDAL(BaseDAL):
             
             Returns:
                 Config: The config variable that was added to the database.
+            
+            Raises:
+                ValueError: If the type is invalid.
         """
         if type.lower() not in ['str', 'int', 'bool']:
             raise ValueError('Invalid type: {}'.format(type))
@@ -49,6 +52,9 @@ class ConfigDAL(BaseDAL):
         
         Returns:
             str | None: The value of the config variable with the specified key, or None if not found
+        
+        Raises:
+            ValueError: If the config variable is not found.
         """
         return self.db_session.query(Config.value).filter(Config.key == key).first()
     
@@ -62,6 +68,9 @@ class ConfigDAL(BaseDAL):
             
             Returns:
                 Config: The updated config variable.
+            
+            Raises:
+                ValueError: If the config variable is not found.
         """
         config = self.db_session.query(Config).filter(Config.key == key).first()
         if not config:

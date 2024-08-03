@@ -21,7 +21,7 @@ class SessionManager:
             self.sessions = CacheStorageManager(RedisConnector(**kwargs))
         elif connector_type.lower() == 'system':
             from core.cache_storage.connectors.system import SystemConnector
-            self.cache = CacheStorageManager(SystemConnector(**kwargs))
+            self.sessions = CacheStorageManager(SystemConnector(**kwargs))
         else:
             raise ValueError(f"Invalid connector type: {connector_type}")
 
