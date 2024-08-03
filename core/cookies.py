@@ -6,8 +6,6 @@ import jwt
 from sanic import json, Sanic, response
 from sanic.request import Request
 
-secret = "secret"
-
 def append_cookie(request: Request, response: json, key: str, value: str, http_only: bool = False, expires_in: int = 604800, algorithm: str = "HS256") -> response:
     """
         Append a cookie to a response.
@@ -27,7 +25,7 @@ def append_cookie(request: Request, response: json, key: str, value: str, http_o
     response.add_cookie(
         key,
         jwt.encode(value, 
-            secret,
+            request.app.ctx.env_manager.get("COOKIE_SECRET"),
             algorithm=algorithm
         ),
         httponly=http_only,
@@ -52,7 +50,7 @@ def get_cookie(request: Request, key: str, algorithm: str = "HS256") -> str | No
     try:
         return jwt.decode(
             request.cookies[key],
-            secret,
+            request.app.ctx.env_manager.get("COOKIE_SECRET"),
             algorithms=[algorithm]
         )
     except jwt.ExpiredSignatureError:
