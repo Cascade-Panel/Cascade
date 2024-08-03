@@ -2,6 +2,8 @@
 from sanic import Sanic
 from asyncio import AbstractEventLoop
 from core.database import init_db, close_db
+from core.sessions import SessionManager
+from core.cache import CacheManager
 
 async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """
@@ -18,6 +20,15 @@ async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     app.ctx.db.engine = engine
     app.ctx.db.asyncsession = asyncsession
     app.ctx.db.Base = Base
+
+    CACHE_STORAGE_TYPE = app.ctx.env_manager.get("CACHE_STORAGE_TYPE")
+
+    if CACHE_STORAGE_TYPE == "redis":
+        REDIS_URL = app.ctx.env_manager.get("REDIS_URL")
+        app.ctx.session_manager = SessionManager(connector_type="redis", redis_url=REDIS_URL)
+        app.ctx.cache_manager = CacheManager(connector_type="redis", redis_url=REDIS_URL)
+
+
 
 async def after_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """

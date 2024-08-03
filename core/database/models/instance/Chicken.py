@@ -35,9 +35,6 @@ class Chicken(Base):
     
     ## make a columnm called type that can only be one of the following values: OCI, SYSTEM, or VM
     type = Column(String, nullable=False)
-
-    if type not in ['OCI', 'SYSTEM', 'VM']:
-        raise ValueError('Invalid type')
     
     endpoint_url = Column(String, nullable=False)
 
@@ -48,3 +45,21 @@ class Chicken(Base):
 
     ## column to store the YML string of the Chicken
     raw_yml = Column(String, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_on': type,
+        'polymorphic_identity': 'chicken'
+    }
+
+    @staticmethod
+    def validate_type(type_value):
+        if type_value not in ['OCI', 'SYSTEM', 'VM']:
+            raise ValueError('Invalid type')
+
+    @staticmethod
+    def before_insert(mapper, connection, target):
+        Chicken.validate_type(target.type)
+
+    @staticmethod
+    def before_update(mapper, connection, target):
+        Chicken.validate_type(target.type)
