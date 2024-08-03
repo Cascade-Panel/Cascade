@@ -12,6 +12,7 @@ from sqlalchemy import (
 
 from core.database import Base
 
+
 class Chicken(Base):
     """
         The Chicken model.

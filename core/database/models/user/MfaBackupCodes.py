@@ -7,10 +7,8 @@ from sqlalchemy import Column, DateTime, String, Integer, Boolean
 from sqlalchemy_utils import EncryptedType, StringEncryptedType, UUIDType
 from sqlalchemy_utils.types.encrypted.encrypted_type import AesEngine
 
-from core.database import Base
+from core.database import Base, fetch_encryption_key
 
-def fetch_encryption_key() -> str:
-    pass
 
 def gen_uuid() -> uuid:
     return uuid.uuid4()

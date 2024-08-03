@@ -11,10 +11,8 @@ from sqlalchemy import (
 )
 from sqlalchemy_utils import UUIDType
 from sqlalchemy_utils.types.encrypted.encrypted_type import AesEngine, EncryptedType
-from core.database import Base
+from core.database import Base, fetch_encryption_key
 
-def fetch_encryption_key() -> str:
-    pass
 
 class Subuser(Base):
     """

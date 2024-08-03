@@ -9,8 +9,6 @@ from sqlalchemy_utils.types.encrypted.encrypted_type import AesEngine
 
 from core.database import Base
 
-def fetch_encryption_key() -> str:
-    pass
 
 def gen_uuid() -> uuid:
     return uuid.uuid4()
