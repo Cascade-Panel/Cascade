@@ -11,30 +11,36 @@ from core.database.models.user.Mfa import Mfa
 
 async def is_authorised(request) -> bool:
     """
-        Determine if the user is authorised.
+    Determine if the user is authorised.
 
-        Attributes:
-            request (Request): The request object.
+    Args:
+        request (Request): The request object.
 
-        Returns:
-            bool: True if the user is authorised, False otherwise.
+    Returns:
+        bool: True if the user is authorised, False otherwise.
     """
     user_uuid = get_cookie(request, request.app.ctx.env_manager.get("COOKIE_IDENTITY"))
     if user_uuid is None:
         return False
 
-    user = await UserDAL(request.app.db_session).get(user_uuid)
-    if user is None:
-        return False
+    async with request.app.db_session() as session:
+        async with session.begin():
+            user_dal = UserDAL(session)
+            user = await user_dal.get(user_uuid)
 
-    ## check that the users email is verified
-    if not user.is_email_verified:
-        return False
-    
-    ## check that they are not setting up mfa
-    mfa = await MfaDAL(request.app.db_session).get(user.uuid)
-    if mfa is not None and mfa.is_setting_up:
-        return False
+            if user is None:
+                return False
+
+            # Check that the user's email is verified
+            if not user.is_email_verified:
+                return False
+            
+            mfa_dal = MfaDAL(session)
+            mfa = await mfa_dal.get(user.uuid)
+
+            # Check that the user is not setting up MFA
+            if mfa is not None and mfa.is_setting_up:
+                return False
 
     return True
 
@@ -82,21 +88,24 @@ async def restricted_to_unverified(request) -> bool:
 
 async def restricted_to_mfa_setters(request) -> bool:
     """
-        Determine if the user is authorised before MFA has been setup fully.
+    Determine if the user is authorized before MFA has been set up fully.
 
-        Attributes:
-            request (Request): The request object.
+    Args:
+        request (Request): The request object.
 
-        Returns:
-            bool: True if the user is authorised before MFA, False otherwise.
+    Returns:
+        bool: True if the user is authorized before MFA, False otherwise.
     """
     user = await get_user(request)
     if user is None:
         return False
 
-    mfa = await MfaDAL(request.app.db_session).get(user.uuid)
-    if mfa is None:
-        return False
+    async with request.app.db_session() as session:
+        async with session.begin():
+            mfa_dal = MfaDAL(session)
+            mfa = await mfa_dal.get(user.uuid)
+            if mfa is None:
+                return False
 
     return mfa.is_setting_up
 

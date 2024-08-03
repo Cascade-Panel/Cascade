@@ -19,6 +19,7 @@ class Config(Base):
         key (str): The configuration key, identifying the setting.
         type (str): The type of the setting (e.g., 'boolean', 'string', 'integer').
         value (str): The value of the setting, stored as a string.
+        description (str): A description of the setting.
         created_on (datetime): The timestamp when the configuration entry was created.
         updated_on (datetime): The timestamp when the configuration entry was last updated.
     """
@@ -28,6 +29,7 @@ class Config(Base):
     key = Column(String, nullable=False, unique=True)
     type = Column(String, nullable=False)  # Type of setting (e.g., 'boolean', 'string', 'integer')
     value = Column(String, nullable=False)  # Value of the setting, set as string
+    description = Column(String, nullable=False)
     created_on = Column(DateTime, nullable=False, default=datetime.datetime.now())
     updated_on = Column(DateTime, nullable=False, default=datetime.datetime.now(), onupdate=datetime.datetime.now())
 

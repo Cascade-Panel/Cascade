@@ -19,7 +19,7 @@ class ConfigDAL(BaseDAL):
     def __init__(self, db_session: Session) -> None:
         self.db_session = db_session
     
-    async def new(self, key: str, value: str | int | bool, type: str) -> Config:
+    async def new(self, key: str, value: str | int | bool, type: str, description: str) -> Config:
         """
             Add a new config variable to the database.
 
@@ -37,7 +37,7 @@ class ConfigDAL(BaseDAL):
         if type.lower() not in ['str', 'int', 'bool']:
             raise ValueError('Invalid type: {}'.format(type))
 
-        config = Config(key=key, value=str(value), type=type.lower())
+        config = Config(key=key, value=str(value), type=type.lower(), description=description)
         self.db_session.add(config)
         self.db_session.commit()
         self.db_session.refresh(config)
@@ -56,8 +56,20 @@ class ConfigDAL(BaseDAL):
         Raises:
             ValueError: If the config variable is not found.
         """
-        return self.db_session.query(Config.value).filter(Config.key == key).first()
+        return self.db_session.query(Config).filter(Config.key == key).first()
     
+    async def get_by_name(self, name: str) -> Config | None:
+        """
+            Retrieve a config variable from the database by name.
+
+            Attributes:
+                name (str): The name of the config variable to retrieve.
+            
+            Returns:
+                Config | None: The config variable with the specified name, or None if not found.
+        """
+        return self.db_session.query(Config).filter(Config.name == name).first()
+
     async def update(self, key: str, value: str | int | bool) -> Config:
         """
             Update the value of a config variable in the database.
