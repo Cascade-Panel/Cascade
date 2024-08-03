@@ -1,5 +1,5 @@
-""" This module provides functions for saving user sessions in the application. """
-
+from datetime import datetime
+from typing import Dict, Union
 from sqlalchemy import Uuid
 from core.cache_storage import CacheStorageManager
 from core.database.models.user.User import User
@@ -7,11 +7,11 @@ from core.database.models.user.User import User
 class SessionManager:
     def __init__(self, connector_type: str, **kwargs):
         """
-            Initialize the session manager.
+        Initialize the session manager.
 
-            Attributes:
-                connector_type: The type of connector to use.
-                kwargs: Additional keyword arguments to pass to the connector.
+        Args:
+            connector_type: The type of connector to use.
+            kwargs: Additional keyword arguments to pass to the connector.
         """
         if connector_type.lower() == 'sqlite':
             from core.cache_storage.connectors.sqlite import SQLiteConnector
@@ -20,49 +20,55 @@ class SessionManager:
             from core.cache_storage.connectors.redis import RedisConnector
             self.sessions = CacheStorageManager(RedisConnector(**kwargs))
         else:
-            raise ValueError('Invalid connector type: {}'.format(connector_type))
-    
+            raise ValueError(f"Invalid connector type: {connector_type}")
+
     async def __async__init__(self) -> None:
         """
-            Initialize the session manager.
+        Initialize the session manager.
         """
         await self.sessions.__async__init__()
-    
-    async def get(self, session_id: str) -> User:
-        """
-            Retrieve a user uuid from the cache based on the session ID.
 
-            Attributes:
-                session_id: The ID of the session to retrieve.
+    async def get(self, session_id: str) -> Union[Dict[str, Union[Uuid, str, datetime]], None]:
+        """
+        Retrieve a user session info from the cache based on the session ID.
 
-            Returns:
-                The user uuid if found, otherwise None.
-        """
-        user_uuid = await self.sessions.get(session_id)
-        return user_uuid
-    
-    async def add(self, session_id: str, user_uuid: Uuid, ttl: int = None) -> None:
-        """
-            Add a user uuid to the cache.
+        Args:
+            session_id: The ID of the session to retrieve.
 
-            Attributes:
-                session_id: The ID of the session.
-                user_uuid: The user uuid to be cached.
-                ttl: The time-to-live in seconds. Defaults to None.
+        Returns:
+            The user session info if found, otherwise None.
         """
-        await self.sessions.set(session_id, user_uuid, ttl=ttl)
+        session_info = await self.sessions.get(session_id)
+        return session_info
+
+    async def add(self, session_id: str, user_uuid: Uuid, ip_address: str, ttl: int = None) -> None:
+        """
+        Add a user session info to the cache.
+
+        Args:
+            session_id: The ID of the session.
+            user_uuid: The user uuid to be cached.
+            ip_address: The IP address where the session was created.
+            ttl: The time-to-live in seconds. Defaults to None.
+        """
+        session_info = {
+            'user_uuid': user_uuid,
+            'created_at': datetime.now(),
+            'ip_address': ip_address
+        }
+        await self.sessions.set(session_id, session_info, ttl=ttl)
 
     async def delete(self, session_id: str) -> None:
         """
-            Remove a user uuid from the cache based on the session ID.
+        Remove a user session info from the cache based on the session ID.
 
-            Attributes:
-                session_id: The ID of the session.
+        Args:
+            session_id: The ID of the session.
         """
         await self.sessions.delete(session_id)
-    
+
     async def clear_expired(self) -> None:
         """
-            Clear expired sessions from the cache.
+        Clear expired sessions from the cache.
         """
         await self.sessions.clear_expired()
