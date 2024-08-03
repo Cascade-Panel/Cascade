@@ -32,6 +32,9 @@ async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     if CACHE_STORAGE_TYPE == "sqlite":
         app.ctx.session_manager = SessionManager(connector_type="sqlite", db_path=app.ctx.env_manager.get("CACHE_STORAGE_DB_PATH"))
         app.ctx.cache_manager = CacheManager(connector_type="sqlite", db_path=app.ctx.env_manager.get("CACHE_STORAGE_DB_PATH"))
+    if CACHE_STORAGE_TYPE == "system":
+        app.ctx.session_manager = SessionManager(connector_type="system")
+        app.ctx.cache_manager = CacheManager(connector_type="system")
 
     # Adding user dependency if it has type hint `: User`
     app.ext.add_dependency(User, get_user)
