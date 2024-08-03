@@ -6,6 +6,7 @@ from core.database.models.user.User import User
 from core.sessions import SessionManager
 from core.cache import CacheManager
 from core.authentication import get_user
+from core.config import init_config
 
 async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """
@@ -22,6 +23,8 @@ async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     app.ctx.db.engine = engine
     app.ctx.db.asyncsession = asyncsession
     app.ctx.db.Base = Base
+
+    await init_config(app)
 
     CACHE_STORAGE_TYPE = app.ctx.env_manager.get("CACHE_STORAGE_TYPE")
 

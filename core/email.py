@@ -17,14 +17,14 @@ class Emails:
                 Email: The email object.
         """
         welcome = Email(
-            host=app.ctx.env_manager.get("SMTP_HOST"),
-            port=app.ctx.env_manager.get("SMTP_PORT"),
-            sender=app.ctx.env_manager.get("SMTP_SENDER"),
+            host=app.config['EMAIL_HOST'],
+            port=app.config['EMAIL_PORT'],
+            sender=app.config['EMAIL_SENDER'],
         )
 
-        welcome.plain_body("Welcome to the platform, {first-name}!")
+        welcome.add_plain_body(app.config['EMAIL_WELCOME_PLAIN_BODY'])
 
-        welcome.add_html_body_from_file("./templates/email/welcome.html")
+        welcome.add_html_body(app.config['EMAIL_WELCOME_HTML_BODY'])
 
         welcome.add_format_variables({
             "first-name": user.first_name,
@@ -50,14 +50,14 @@ class Emails:
                 Email: The email object.
         """
         password_reset = Email(
-            host=app.ctx.env_manager.get("SMTP_HOST"),
-            port=app.ctx.env_manager.get("SMTP_PORT"),
-            sender=app.ctx.env_manager.get("SMTP_SENDER"),
+            host=app.config['EMAIL_HOST'],
+            port=app.config['EMAIL_PORT'],
+            sender=app.config['EMAIL_SENDER'],
         )
 
-        password_reset.plain_body("You have requested a password reset. Please click the link below to reset your password. {reset-url}")
+        password_reset.plain_body(app.config['EMAIL_PASSWORD_RESET_PLAIN_BODY'])
 
-        password_reset.add_html_body_from_file("./templates/email/password-reset.html")
+        password_reset.add_html_body(app.config['EMAIL_PASSWORD_RESET_HTML_BODY'])
 
         password_reset.add_format_variables({
             "first-name": user.first_name,
@@ -84,14 +84,14 @@ class Emails:
                 Email: The email object.
         """
         email_verification = Email(
-            host=app.ctx.env_manager.get("SMTP_HOST"),
-            port=app.ctx.env_manager.get("SMTP_PORT"),
-            sender=app.ctx.env_manager.get("SMTP_SENDER"),
+            host=app.config['EMAIL_HOST'],
+            port=app.config['EMAIL_PORT'],
+            sender=app.config['EMAIL_SENDER'],
         )
 
-        email_verification.plain_body("Please click the link below to verify your email. {verification-url}")
+        email_verification.plain_body(app.config['EMAIL_VERIFICATION_PLAIN_BODY'])
 
-        email_verification.add_html_body_from_file("./templates/email/email-verification.html")
+        email_verification.add_html_body(app.config['EMAIL_VERIFICATION_HTML_BODY'])
 
         email_verification.add_format_variables({
             "first-name": user.first_name,
@@ -118,12 +118,14 @@ class Emails:
                 Email: The email object.
         """
         email_code_login = Email(
-            host=app.ctx.env_manager.get("SMTP_HOST"),
-            port=app.ctx.env_manager.get("SMTP_PORT"),
-            sender=app.ctx.env_manager.get("SMTP_SENDER"),
+            host=app.config['EMAIL_HOST'],
+            port=app.config['EMAIL_PORT'],
+            sender=app.config['EMAIL_SENDER'],
         )
 
-        email_code_login.plain_body("Your login code is: {login-code-url}")
+        email_code_login.plain_body(app.config['EMAIL_LOGIN_CODE_PLAIN_BODY'])
+
+        email_code_login.add_html_body(app.config['EMAIL_LOGIN_CODE_HTML_BODY'])
 
         email_code_login.add_format_variables({
             "first-name": user.first_name,
