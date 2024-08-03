@@ -4,7 +4,7 @@ This module provides the data-access-layer for managing InstanceAudit records in
 
 from uuid import UUID
 from sqlalchemy.orm import Session
-from core.database.models.instance_audit import InstanceAudit
+from core.database.models.instance.InstanceAudit import InstanceAudit
 from core.database.DALs.base import BaseDAL
 
 class InstanceAuditDAL(BaseDAL):
