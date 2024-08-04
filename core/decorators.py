@@ -1,52 +1,23 @@
-from core.authentication import is_authorised, restricted_to_unverified, restricted_to_mfa_setters
-from sanic import BadRequest
+from functools import wraps
+from sanic import Request, HTTPResponse, BadRequest
+from core.authentication import get_session, fetch_user, fetch_mfa
 
-def authenticated(func):
-    """ 
-        Decorator to ensure that the user is authenticated.
-        - Forces the user to:
-            - Be authenticated.
-            - Not be verifying their email.
-            - Not be setting up MFA.
+def protected():
+    def decorator(f):
+        @wraps(f)
+        async def decorated_function(request: Request, *args, **kwargs):
+            user_session = await get_session(request)
+            if not user_session:
+                raise BadRequest('Unauthorized')
 
-        Raises:
-            BadRequest: If the user is not authenticated.
-    """
-    def wrapper(request, *args, **kwargs):
-        if not is_authorised(request):
-            raise BadRequest("You are not authorised to access this resource.")
-        return func(request, *args, **kwargs)
-    return wrapper
+            async with request.app.db_session() as session:
+                async with session.begin():
+                    user = await fetch_user(session, user_session.get("user_uuid"))
+                    if not user:
+                        raise BadRequest('Unauthorized')
 
-def restricted_to_unverified(func):
-    """
-        Decorator to ensure that the user is allowed to access the endpoint without their email being verified.
-        - Forces the user to:
-            - Be authorised.
-            - Have their email verified.
+                    # Inject the user into the route handler
+                    return await f(request, user, *args, **kwargs)
+        return decorated_function
+    return decorator
 
-        Raises:
-            BadRequest: If the user is not allowed to access the endpoint without their email being verified.
-    """
-    def wrapper(request, *args, **kwargs):
-        if not restricted_to_unverified(request):
-            raise BadRequest("You are not authorised to access this resource.")
-
-        return func(request, *args, **kwargs)
-    return wrapper
-
-def restricted_to_mfa_setters(func):
-    """
-        Decorator to ensure that the user is authorised before MFA has been setup fully.
-        - Forces the user to:
-            - Be authorised.
-            - Be setting up MFA.
-
-        Raises:
-            BadRequest: If the user is not authorised before MFA.
-    """
-    def wrapper(request, *args, **kwargs):
-        if not restricted_to_mfa_setters(request):
-            raise BadRequest("You are not authorised to access this resource.")
-        return func(request, *args, **kwargs)
-    return wrapper

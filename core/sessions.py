@@ -31,7 +31,7 @@ class SessionManager:
         """
         await self.sessions.__async__init__()
 
-    async def get(self, session_id: str) -> Union[Dict[str, Union[Uuid, str, datetime]], None]:
+    async def get(self, session_id: str) -> Union[Dict[str, Union[Uuid, str, datetime, bool]], None]:
         """
         Retrieve a user session info from the cache based on the session ID.
 
@@ -44,7 +44,7 @@ class SessionManager:
         session_info = await self.sessions.get(session_id)
         return session_info
 
-    async def add(self, session_id: str, user_uuid: Uuid, ip_address: str, ttl: int = None) -> None:
+    async def add(self, session_id: str, user_uuid: Uuid, ip_address: str, is_logging_in_with_mfa: bool, ttl: int = None) -> None:
         """
         Add a user session info to the cache.
 
@@ -52,12 +52,14 @@ class SessionManager:
             session_id: The ID of the session.
             user_uuid: The user uuid to be cached.
             ip_address: The IP address where the session was created.
+            is_logging_in_with_mfa: Boolean indicating if the user is logging in with MFA.
             ttl: The time-to-live in seconds. Defaults to None.
         """
         session_info = {
             'user_uuid': user_uuid,
             'created_at': datetime.now(),
-            'ip_address': ip_address
+            'ip_address': ip_address,
+            'is_logging_in_with_mfa': is_logging_in_with_mfa
         }
         await self.sessions.set(session_id, session_info, ttl=ttl)
 
