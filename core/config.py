@@ -7,7 +7,7 @@ from core.database.DALs.config_dal import ConfigDAL
 CONFIG_VALUES = [
     # ['config_name', 'config_type', 'default_value', 'description']
     ## Application configuration ##
-    ['APP_NAME', 'str', 'BlendPanel' 'The name of the application.'],
+    ['APP_NAME', 'str', 'Cascade Panel' 'The name of the application.'],
     ['APP_DESC', 'str', 'A simple and secure panel for managing your servers.', 'The description of the application.'],
 
     ## Email server configuration ##
@@ -16,9 +16,9 @@ CONFIG_VALUES = [
     ['EMAIL_SENDER', 'str', 'The email address to send emails from.', 'The email address to send emails from.'],
      
     ## Email templates ##
-    ['EMAIL_WELCOME_SUBJECT', 'str', 'Welcome to BlendPanel!', 'The subject of the welcome email.'],
-    ['EMAIL_WELCOME_PLAIN_BODY', 'str', 'Welcome to BlendPanel, {first-name}!', 'The plain text body of the welcome email.'],
-    ['EMAIL_WELCOME_HTML_BODY', 'str', '<h1>Welcome to BlendPanel, {first-name}!</h1>', 'The string HTML body of the welcome email.'],
+    ['EMAIL_WELCOME_SUBJECT', 'str', 'Welcome to Cascade Panel!', 'The subject of the welcome email.'],
+    ['EMAIL_WELCOME_PLAIN_BODY', 'str', 'Welcome to Cascade Panel, {first-name}!', 'The plain text body of the welcome email.'],
+    ['EMAIL_WELCOME_HTML_BODY', 'str', '<h1>Welcome to Cascade Panel, {first-name}!</h1>', 'The string HTML body of the welcome email.'],
 
     ['EMAIL_PASSWORD_RESET_SUBJECT', 'str', 'Password Reset Request', 'The subject of the password reset email.'],
     ['EMAIL_PASSWORD_RESET_PLAIN_BODY', 'str', 'You have requested a password reset. {reset-url}', 'The plain text body of the password reset email.'],
