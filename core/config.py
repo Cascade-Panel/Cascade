@@ -37,7 +37,7 @@ async def update_config_value(app: Sanic, key: str, value: str | int | bool) -> 
     """
     Update a configuration value in the database.
 
-    Attributes:
+    Args:
         app (sanic.Sanic): The application instance.
         key (str): The key of the configuration value to update.
         value (str | int | bool): The new value of the configuration.
@@ -70,7 +70,7 @@ async def init_config(app):
     """
     Initialize the configuration of the application.
 
-    Attributes:
+    Args:
         app (sanic.Sanic): The application instance.
     """
     async with app.ctx.asyncsession as session:

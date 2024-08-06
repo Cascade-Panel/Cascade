@@ -11,7 +11,7 @@ class SubuserDAL(BaseDAL):
     """
     Data Access Layer for managing Subuser records in the database.
 
-    Attributes:
+    Args:
         db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class SubuserDAL(BaseDAL):
         """
         Add a new Subuser record to the database.
 
-        Attributes:
+        Args:
             subuser (Subuser): The Subuser record to add to the database.
         
         Returns:
@@ -36,7 +36,7 @@ class SubuserDAL(BaseDAL):
         """
         Retrieve a Subuser record from the database by its UUID.
 
-        Attributes:
+        Args:
             subuser_uuid (UUID): The UUID of the Subuser record to retrieve.
         
         Returns:
@@ -48,7 +48,7 @@ class SubuserDAL(BaseDAL):
         """
         Retrieve Subuser records from the database by instance ID (server_uuid).
 
-        Attributes:
+        Args:
             instance_id (UUID): The instance ID (server_uuid) to retrieve Subuser records for.
         
         Returns:
@@ -60,7 +60,7 @@ class SubuserDAL(BaseDAL):
         """
         Update a Subuser record in the database.
 
-        Attributes:
+        Args:
             subuser (Subuser): The Subuser record to update in the database.
         
         Returns:
@@ -74,7 +74,7 @@ class SubuserDAL(BaseDAL):
         """
         Refresh an instance of a Subuser record object from the database.
 
-        Attributes:
+        Args:
             subuser (Subuser): The Subuser record object to refresh.
         
         Returns:
@@ -87,7 +87,7 @@ class SubuserDAL(BaseDAL):
         """
         Delete a Subuser record from the database.
 
-        Attributes:
+        Args:
             subuser (Subuser): The Subuser record to delete from the database.
         
         Returns:

@@ -12,7 +12,7 @@ class UserAuditDAL(BaseDAL):
     """
         Data Access Layer for managing User Audit records in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -22,7 +22,7 @@ class UserAuditDAL(BaseDAL):
         """
             Add a new User Audit record to the database.
 
-            Attributes:
+            Args:
                 user_audit (UserAudit): The User Audit record to add to the database.
             
             Returns:
@@ -37,7 +37,7 @@ class UserAuditDAL(BaseDAL):
         """
             Retrieve a User Audit record from the database by user UUID and action timestamp.
 
-            Attributes:
+            Args:
                 user_uuid (UUID): The UUID of the user.
                 action_at (datetime): The timestamp of the action.
             
@@ -53,7 +53,7 @@ class UserAuditDAL(BaseDAL):
         """
             Retrieve all User Audit records for a specific user from the database.
 
-            Attributes:
+            Args:
                 user_uuid (UUID): The UUID of the user whose audit records to retrieve.
             
             Returns:
@@ -65,7 +65,7 @@ class UserAuditDAL(BaseDAL):
         """
             Update a User Audit record in the database.
 
-            Attributes:
+            Args:
                 user_audit (UserAudit): The User Audit record to update in the database.
             
             Returns:
@@ -79,7 +79,7 @@ class UserAuditDAL(BaseDAL):
         """
             Refresh an instance of a User Audit record object from the database.
 
-            Attributes:
+            Args:
                 user_audit (UserAudit): The User Audit record object to refresh.
             
             Returns:
@@ -92,7 +92,7 @@ class UserAuditDAL(BaseDAL):
         """
             Delete a User Audit record from the database.
 
-            Attributes:
+            Args:
                 user_audit (UserAudit): The User Audit record to delete from the database.
             
             Returns:

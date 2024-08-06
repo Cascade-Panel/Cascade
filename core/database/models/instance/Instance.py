@@ -22,7 +22,7 @@ class Instance(Base):
         The Instance model.
         - A model to store an instances information.
 
-        Attributes:
+        Args:
             incus_uuid (UUID): The UUID of the instance.
             owner_uuid (UUID): The UUID of the owner.
             name (String): The name of the instance.

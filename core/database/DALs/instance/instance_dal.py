@@ -11,7 +11,7 @@ class InstanceDAL(BaseDAL):
     """
     Data Access Layer for managing Instance records in the database.
 
-    Attributes:
+    Args:
         db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class InstanceDAL(BaseDAL):
         """
         Add a new Instance record to the database.
 
-        Attributes:
+        Args:
             instance (Instance): The Instance record to add to the database.
         
         Returns:
@@ -36,7 +36,7 @@ class InstanceDAL(BaseDAL):
         """
         Retrieve an Instance record from the database by incus UUID.
 
-        Attributes:
+        Args:
             incus_uuid (UUID): The incus UUID to retrieve the Instance record for.
         
         Returns:
@@ -48,7 +48,7 @@ class InstanceDAL(BaseDAL):
         """
         Retrieve an Instance record from the database by name.
 
-        Attributes:
+        Args:
             name (str): The name to retrieve the Instance record for.
         
         Returns:
@@ -60,7 +60,7 @@ class InstanceDAL(BaseDAL):
         """
         Update an Instance record in the database.
 
-        Attributes:
+        Args:
             instance (Instance): The Instance record to update in the database.
         
         Returns:
@@ -74,7 +74,7 @@ class InstanceDAL(BaseDAL):
         """
         Refresh an instance of an Instance record object from the database.
 
-        Attributes:
+        Args:
             instance (Instance): The Instance record object to refresh.
         
         Returns:
@@ -87,7 +87,7 @@ class InstanceDAL(BaseDAL):
         """
         Delete an Instance record from the database.
 
-        Attributes:
+        Args:
             instance (Instance): The Instance record to delete from the database.
         
         Returns:
@@ -110,7 +110,7 @@ class InstanceDAL(BaseDAL):
         """
         Retrieve all Instance records from the database by owner UUID.
 
-        Attributes:
+        Args:
             owner_uuid (UUID): The owner UUID to retrieve the Instance records for.
         
         Returns:

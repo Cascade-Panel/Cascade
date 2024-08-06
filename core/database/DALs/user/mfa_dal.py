@@ -11,7 +11,7 @@ class MfaDAL(BaseDAL):
     """
         Data Access Layer for managing MFA records in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class MfaDAL(BaseDAL):
         """
             Add a new MFA record to the database.
 
-            Attributes:
+            Args:
                 mfa (Mfa): The MFA record to add to the database.
             
             Returns:
@@ -36,7 +36,7 @@ class MfaDAL(BaseDAL):
         """
             Retrieve an MFA record from the database by user UUID.
 
-            Attributes:
+            Args:
                 user_uuid (UUID): The UUID of the user whose MFA record to retrieve.
             
             Returns:
@@ -48,7 +48,7 @@ class MfaDAL(BaseDAL):
         """
             Update an MFA record in the database.
 
-            Attributes:
+            Args:
                 mfa (Mfa): The MFA record to update in the database.
             
             Returns:
@@ -62,7 +62,7 @@ class MfaDAL(BaseDAL):
         """
             Refresh an instance of an MFA record object from the database.
 
-            Attributes:
+            Args:
                 mfa (Mfa): The MFA record object to refresh.
             
             Returns:
@@ -75,7 +75,7 @@ class MfaDAL(BaseDAL):
         """
             Delete an MFA record from the database.
 
-            Attributes:
+            Args:
                 mfa (Mfa): The MFA record to delete from the database.
             
             Returns:

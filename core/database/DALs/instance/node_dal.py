@@ -11,7 +11,7 @@ class NodeDAL(BaseDAL):
     """
     Data Access Layer for managing Node records in the database.
 
-    Attributes:
+    Args:
         db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class NodeDAL(BaseDAL):
         """
         Add a new Node record to the database.
 
-        Attributes:
+        Args:
             node (Node): The Node record to add to the database.
         
         Returns:
@@ -36,7 +36,7 @@ class NodeDAL(BaseDAL):
         """
         Retrieve a Node record from the database by its ID.
 
-        Attributes:
+        Args:
             node_id (int): The ID of the Node record to retrieve.
         
         Returns:
@@ -48,7 +48,7 @@ class NodeDAL(BaseDAL):
         """
         Retrieve a Node record from the database by its UUID.
 
-        Attributes:
+        Args:
             node_uuid (UUID): The UUID of the Node record to retrieve.
         
         Returns:
@@ -60,7 +60,7 @@ class NodeDAL(BaseDAL):
         """
         Update a Node record in the database.
 
-        Attributes:
+        Args:
             node (Node): The Node record to update in the database.
         
         Returns:
@@ -74,7 +74,7 @@ class NodeDAL(BaseDAL):
         """
         Refresh an instance of a Node record object from the database.
 
-        Attributes:
+        Args:
             node (Node): The Node record object to refresh.
         
         Returns:
@@ -87,7 +87,7 @@ class NodeDAL(BaseDAL):
         """
         Delete a Node record from the database.
 
-        Attributes:
+        Args:
             node (Node): The Node record to delete from the database.
         
         Returns:

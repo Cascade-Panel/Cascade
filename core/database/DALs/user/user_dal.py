@@ -12,7 +12,7 @@ class UserDAL(BaseDAL):
     """
         Data Access Layer for managing users in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -22,7 +22,7 @@ class UserDAL(BaseDAL):
         """
             Add a new user to the database.
 
-            Attributes:
+            Args:
                 user (User): The user to add to the database.
             
             Returns:
@@ -37,7 +37,7 @@ class UserDAL(BaseDAL):
         """
             Retrieve a user from the database.
 
-            Attributes:
+            Args:
                 uuid (UUID): The UUID of the user to retrieve.
             
             Returns:
@@ -49,7 +49,7 @@ class UserDAL(BaseDAL):
         """
             Retrieve a user from the database by email.
 
-            Attributes:
+            Args:
                 email (Email): The email of the user to retrieve.
             
             Returns:
@@ -61,7 +61,7 @@ class UserDAL(BaseDAL):
         """
             Update a user in the database.
 
-            Attributes:
+            Args:
                 user (User): The user to update in the database.
             
             Returns:
@@ -75,7 +75,7 @@ class UserDAL(BaseDAL):
         """
             Refresh an instance of a user object from database.
 
-            Attributes:
+            Args:
                 user (User): The user object to refresh.
             
             Returns:
@@ -88,7 +88,7 @@ class UserDAL(BaseDAL):
         """
             Delete a user from the database.
 
-            Attributes:
+            Args:
                 user (User): The user to delete from the database.
             
             Returns:

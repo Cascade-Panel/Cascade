@@ -11,7 +11,7 @@ class OauthDAL(BaseDAL):
     """
         Data Access Layer for managing OAuth entries in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class OauthDAL(BaseDAL):
         """
             Add a new OAuth entry to the database.
 
-            Attributes:
+            Args:
                 oauth (Oauth): The OAuth entry to add to the database.
             
             Returns:
@@ -36,7 +36,7 @@ class OauthDAL(BaseDAL):
         """
             Retrieve an OAuth entry from the database.
 
-            Attributes:
+            Args:
                 uuid (UUID): The UUID of the OAuth entry to retrieve.
             
             Returns:
@@ -48,7 +48,7 @@ class OauthDAL(BaseDAL):
         """
             Retrieve an OAuth entry from the database by identifier.
 
-            Attributes:
+            Args:
                 oauth_account_identifier (str): The identifier of the OAuth entry to retrieve.
             
             Returns:
@@ -60,7 +60,7 @@ class OauthDAL(BaseDAL):
         """
             Retrieve all OAuth entries for a user from the database.
 
-            Attributes:
+            Args:
                 user_uuid (UUID): The UUID of the user to retrieve OAuth entries for.
             
             Returns:
@@ -72,7 +72,7 @@ class OauthDAL(BaseDAL):
         """
             Update an OAuth entry in the database.
 
-            Attributes:
+            Args:
                 oauth (Oauth): The OAuth entry to update in the database.
             
             Returns:
@@ -86,7 +86,7 @@ class OauthDAL(BaseDAL):
         """
             Refresh an instance of an OAuth entry object from the database.
 
-            Attributes:
+            Args:
                 oauth (Oauth): The OAuth entry object to refresh.
             
             Returns:
@@ -99,7 +99,7 @@ class OauthDAL(BaseDAL):
         """
             Delete an OAuth entry from the database.
 
-            Attributes:
+            Args:
                 oauth (Oauth): The OAuth entry to delete from the database.
             
             Returns:

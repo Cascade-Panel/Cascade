@@ -18,7 +18,7 @@ class Mfa(Base):
         The Mfa model.
         - A model to store the Mfa information.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             is_setting_up (Boolean): If the Mfa is setup.
             setup_at (Encrypted[DateTime]): The date the Mfa was setup.

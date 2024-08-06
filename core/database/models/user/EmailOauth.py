@@ -21,7 +21,7 @@ class EmailOauth(Base):
         The EmailOauth model.
         - A model to store the users email oauth login code and relevent information.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             email (Encrypted[String]): The email of the user.
             code (Encrypted[UUID]): The email oauth code of the user.

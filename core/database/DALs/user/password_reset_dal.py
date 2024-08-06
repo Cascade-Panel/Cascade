@@ -12,7 +12,7 @@ class PasswordResetDAL(BaseDAL):
     """
         Data Access Layer for managing password resets in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -22,7 +22,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Add a new password reset request to the database.
 
-            Attributes:
+            Args:
                 password_reset (PasswordReset): The password reset request to add to the database.
             
             Returns:
@@ -37,7 +37,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Retrieve a password reset request from the database.
 
-            Attributes:
+            Args:
                 uuid (UUID): The UUID of the password reset request to retrieve.
             
             Returns:
@@ -49,7 +49,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Retrieve a password reset request from the database by reset code.
 
-            Attributes:
+            Args:
                 reset_code (str): The reset code of the password reset request to retrieve.
             
             Returns:
@@ -70,7 +70,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Update a password reset request in the database.
 
-            Attributes:
+            Args:
                 password_reset (PasswordReset): The password reset request to update in the database.
             
             Returns:
@@ -84,7 +84,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Refresh an instance of a password reset request object from the database.
 
-            Attributes:
+            Args:
                 password_reset (PasswordReset): The password reset request object to refresh.
             
             Returns:
@@ -97,7 +97,7 @@ class PasswordResetDAL(BaseDAL):
         """
             Delete a password reset request from the database.
 
-            Attributes:
+            Args:
                 password_reset (PasswordReset): The password reset request to delete from the database.
             
             Returns:

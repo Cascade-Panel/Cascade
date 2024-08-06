@@ -7,7 +7,7 @@ class SQLiteConnector(BaseConnector):
     """
     A caching manager that stores cache in a SQLite database.
 
-    Attributes:
+    Args:
         db_path (str): The path to the SQLite database file.
     """
     def __init__(self, db_path: str):
@@ -49,7 +49,7 @@ class SQLiteConnector(BaseConnector):
         """
         Add a value to the cache.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
@@ -74,7 +74,7 @@ class SQLiteConnector(BaseConnector):
         """
         Remove a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         async with aiosqlite.connect(self.db_path) as db:

@@ -9,7 +9,7 @@ class CacheManager:
         """
             Initialize the cache manager.
 
-            Attributes:
+            Args:
                 connector_type: The type of connector to use.
                 kwargs: Additional keyword arguments to pass to the connector.
         """
@@ -35,7 +35,7 @@ class CacheManager:
         """
             Retrieve a user from the cache based on the UUID.
 
-            Attributes:
+            Args:
                 user_uuid: The UUID of the user to retrieve.
             
             Returns:
@@ -48,7 +48,7 @@ class CacheManager:
         """
             Add a user to the cache.
 
-            Attributes:
+            Args:
                 user: The user to be cached.
             
             Returns:
@@ -61,7 +61,7 @@ class CacheManager:
         """
             Remove a user from the cache based on the UUID.
 
-            Attributes:
+            Args:
                 user_uuid: The UUID of the user to remove.
             
             Returns:
@@ -82,7 +82,7 @@ class CacheManager:
         """
             Update a user in the cache.
 
-            Attributes:
+            Args:
                 user: The user to update.
             
             Returns:

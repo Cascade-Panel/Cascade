@@ -18,7 +18,7 @@ class Subuser(Base):
     """
         Represents a subuser in the Subusers table.
 
-        Attributes:
+        Args:
             id (int): The ID of the subuser.
             uuid (UUID): The UUID of the subuser.
             server_uuid (UUID): The UUID of the server.

@@ -38,7 +38,7 @@ class SystemConnector(BaseConnector):
         """
         Add a value to the cache.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
@@ -62,7 +62,7 @@ class SystemConnector(BaseConnector):
         """
         Remove a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         if key in self.store:

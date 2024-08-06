@@ -12,7 +12,7 @@ class ConfigDAL(BaseDAL):
     """
         Data Access Layer for managing config variables in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
 
@@ -23,7 +23,7 @@ class ConfigDAL(BaseDAL):
         """
             Add a new config variable to the database.
 
-            Attributes:
+            Args:
                 key (str): The key of the config variable.
                 value (str | int | bool): The value of the config variable.
                 type (str): The type of the config variable.
@@ -47,7 +47,7 @@ class ConfigDAL(BaseDAL):
         """
         Retrieve the value of a config variable from the database.
 
-        Attributes:
+        Args:
             key (str): The key of the config variable to retrieve.
         
         Returns:
@@ -62,7 +62,7 @@ class ConfigDAL(BaseDAL):
         """
             Update the value of a config variable in the database.
 
-            Attributes:
+            Args:
                 key (str): The key of the config variable to update.
                 value (str | int | bool): The new value of the config variable.
             
@@ -85,7 +85,7 @@ class ConfigDAL(BaseDAL):
         """
             Remove a config variable from the database.
 
-            Attributes:
+            Args:
                 key (str): The key of the config variable to remove.
         """
         config = self.db_session.query(Config).filter(Config.key == key).first()

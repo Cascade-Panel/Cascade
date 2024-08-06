@@ -12,7 +12,7 @@ class EmailOauthDAL(BaseDAL):
     """
         Data Access Layer for managing Email OAuth records in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -22,7 +22,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Add a new Email OAuth record to the database.
 
-            Attributes:
+            Args:
                 email_oauth (EmailOauth): The Email OAuth record to add to the database.
             
             Returns:
@@ -37,7 +37,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Retrieve an Email OAuth record from the database by email.
 
-            Attributes:
+            Args:
                 email (str): The email to retrieve the Email OAuth record for.
             
             Returns:
@@ -49,7 +49,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Retrieve an Email OAuth record from the database by OAuth code.
 
-            Attributes:
+            Args:
                 code (UUID): The OAuth code to retrieve the Email OAuth record for.
             
             Returns:
@@ -61,7 +61,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Update an Email OAuth record in the database.
 
-            Attributes:
+            Args:
                 email_oauth (EmailOauth): The Email OAuth record to update in the database.
             
             Returns:
@@ -75,7 +75,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Refresh an instance of an Email OAuth record object from the database.
 
-            Attributes:
+            Args:
                 email_oauth (EmailOauth): The Email OAuth record object to refresh.
             
             Returns:
@@ -88,7 +88,7 @@ class EmailOauthDAL(BaseDAL):
         """
             Delete an Email OAuth record from the database.
 
-            Attributes:
+            Args:
                 email_oauth (EmailOauth): The Email OAuth record to delete from the database.
             
             Returns:

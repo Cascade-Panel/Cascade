@@ -18,7 +18,7 @@ class Node(Base):
         The Node model.
         - A model to store the Node information.
 
-        Attributes:
+        Args:
             uuid (UUID): The UUID of the node.
             name (String): The name of the node.
             endpoint_url (String): The endpoint URL of the node.

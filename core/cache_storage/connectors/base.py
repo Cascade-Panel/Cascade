@@ -4,7 +4,7 @@ class BaseConnector:
     """
     The base class for all storage connectors.
 
-    Attributes:
+    Args:
         connection: The connection to the storage system.
     """
     def __init__(self, connection):
@@ -20,7 +20,7 @@ class BaseConnector:
         """
         Retrieve a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         raise NotImplementedError
@@ -29,7 +29,7 @@ class BaseConnector:
         """
         Add a value to the cache.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
@@ -40,7 +40,7 @@ class BaseConnector:
         """
         Clear expired cache entries from the storage system
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         raise NotImplementedError
@@ -49,7 +49,7 @@ class BaseConnector:
         """
         Remove a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         raise NotImplementedError

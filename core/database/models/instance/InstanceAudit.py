@@ -18,7 +18,7 @@ class InstanceAudit(Base):
         The InstanceAudit model.
         - A model to store the InstanceAudit information.
 
-        Attributes:
+        Args:
             instance_uuid (UUID): The UUID of the instance.
             action (String): The action of the instance.
             action_at (DateTime): The date the action was done.

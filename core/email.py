@@ -9,7 +9,7 @@ class Emails:
         """
             Send a welcome email to the user.
 
-            Attributes:
+            Args:
                 app (Sanic): The Sanic application.
                 user (User): The user.
 
@@ -41,7 +41,7 @@ class Emails:
         """
             Send a password reset email to the user.
 
-            Attributes:
+            Args:
                 app (Sanic): The Sanic application.
                 user (User): The user.
                 reset_url (str): The URL to reset the password.
@@ -75,7 +75,7 @@ class Emails:
         """
             Send an email verification email to the user.
 
-            Attributes:
+            Args:
                 app (Sanic): The Sanic application.
                 user (User): The user.
                 verification_url (str): The URL to verify the email.
@@ -109,7 +109,7 @@ class Emails:
         """
             Send an email verification code to the user.
 
-            Attributes:
+            Args:
                 app (Sanic): The Sanic application.
                 user (User): The user.
                 login_code_url (str): The URL to login with the code.

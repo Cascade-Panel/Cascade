@@ -11,7 +11,7 @@ class ChickenDAL(BaseDAL):
     """
     Data Access Layer for managing Chicken records in the database.
 
-    Attributes:
+    Args:
         db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class ChickenDAL(BaseDAL):
         """
         Add a new Chicken record to the database.
 
-        Attributes:
+        Args:
             chicken (Chicken): The Chicken record to add to the database.
         
         Returns:
@@ -36,7 +36,7 @@ class ChickenDAL(BaseDAL):
         """
         Retrieve a Chicken record from the database by UUID.
 
-        Attributes:
+        Args:
             uuid (UUID): The UUID to retrieve the Chicken record for.
         
         Returns:
@@ -48,7 +48,7 @@ class ChickenDAL(BaseDAL):
         """
         Retrieve a Chicken record from the database by name.
 
-        Attributes:
+        Args:
             name (str): The name to retrieve the Chicken record for.
         
         Returns:
@@ -60,7 +60,7 @@ class ChickenDAL(BaseDAL):
         """
         Update a Chicken record in the database.
 
-        Attributes:
+        Args:
             chicken (Chicken): The Chicken record to update in the database.
         
         Returns:
@@ -74,7 +74,7 @@ class ChickenDAL(BaseDAL):
         """
         Refresh an instance of a Chicken record object from the database.
 
-        Attributes:
+        Args:
             chicken (Chicken): The Chicken record object to refresh.
         
         Returns:
@@ -87,7 +87,7 @@ class ChickenDAL(BaseDAL):
         """
         Delete a Chicken record from the database.
 
-        Attributes:
+        Args:
             chicken (Chicken): The Chicken record to delete from the database.
         
         Returns:

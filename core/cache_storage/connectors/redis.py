@@ -6,7 +6,7 @@ class RedisConnector(BaseConnector):
     """
     A caching manager that stores cache in a Redis database.
 
-    Attributes:
+    Args:
         redis_url (str): The URL to connect to the Redis database.
     """
     def __init__(self, redis_url: str):
@@ -23,7 +23,7 @@ class RedisConnector(BaseConnector):
         """
         Retrieve a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
 
         Returns:
@@ -38,7 +38,7 @@ class RedisConnector(BaseConnector):
         """
         Add a value to the cache.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
@@ -61,7 +61,7 @@ class RedisConnector(BaseConnector):
         """
         Remove a value from the cache based on the key.
 
-        Attributes:
+        Args:
             key (str): The key of the cache.
         """
         await self.conn.delete(key)

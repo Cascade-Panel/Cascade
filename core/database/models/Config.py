@@ -14,7 +14,7 @@ class Config(Base):
     """
     The Config model represents configuration settings.
 
-    Attributes:
+    Args:
         id (int): The primary key for the configuration entry.
         key (str): The configuration key, identifying the setting.
         type (str): The type of the setting (e.g., 'boolean', 'string', 'integer').
@@ -82,7 +82,7 @@ class Config(Base):
         """
         Set the value of the setting based on its type.
         
-        Attributes:
+        Args:
             value (Any): The value to set for the setting.
         
         Raises:

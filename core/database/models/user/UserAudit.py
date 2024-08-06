@@ -17,7 +17,7 @@ class UserAudit(Base):
         The UserAudit model.
         - A model to store the UserAudit information.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             action (String): The action of the user.
             action_at (DateTime): The date the action was done.

@@ -17,7 +17,7 @@ class User(Base):
     """
         The User model.
 
-        Attributes:
+        Args:
             uuid (UUID): The UUID of the user.
             username (String): The username of the user.
             email (Encrypted[String]): The email of the user.

@@ -18,7 +18,7 @@ class Chicken(Base):
         The Chicken model.
         - A model to store the Chicken information.
 
-        Attributes:
+        Args:
             identifier (Integer): The identifier of the Chicken.
             uuid (Uuid): The UUID of the Chicken.
             name (String): The name of the Chicken.

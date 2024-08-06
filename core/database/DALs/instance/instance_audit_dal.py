@@ -11,7 +11,7 @@ class InstanceAuditDAL(BaseDAL):
     """
     Data Access Layer for managing InstanceAudit records in the database.
 
-    Attributes:
+    Args:
         db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Add a new InstanceAudit record to the database.
 
-        Attributes:
+        Args:
             instance_audit (InstanceAudit): The InstanceAudit record to add to the database.
         
         Returns:
@@ -36,7 +36,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Retrieve an InstanceAudit record from the database by its ID.
 
-        Attributes:
+        Args:
             audit_id (int): The ID of the InstanceAudit record to retrieve.
         
         Returns:
@@ -48,7 +48,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Retrieve all InstanceAudit records from the database for a specific instance UUID.
 
-        Attributes:
+        Args:
             instance_uuid (UUID): The UUID of the instance to retrieve audit records for.
         
         Returns:
@@ -60,7 +60,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Update an InstanceAudit record in the database.
 
-        Attributes:
+        Args:
             instance_audit (InstanceAudit): The InstanceAudit record to update in the database.
         
         Returns:
@@ -74,7 +74,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Refresh an instance of an InstanceAudit record object from the database.
 
-        Attributes:
+        Args:
             instance_audit (InstanceAudit): The InstanceAudit record object to refresh.
         
         Returns:
@@ -87,7 +87,7 @@ class InstanceAuditDAL(BaseDAL):
         """
         Delete an InstanceAudit record from the database.
 
-        Attributes:
+        Args:
             instance_audit (InstanceAudit): The InstanceAudit record to delete from the database.
         
         Returns:

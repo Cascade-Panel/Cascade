@@ -7,7 +7,7 @@ class Email:
         A class representing an email address.
         - Conforms to the [RFC 5322](https://datatracker.ietf.org/doc/html/rfc5322) standard.
 
-        Attributes:
+        Args:
             address (str): The email address.
         
         Raises:
@@ -41,7 +41,7 @@ class Password:
         - Must contain at least one digit.
         - Must contain at least one special character.
 
-        Attributes:
+        Args:
             password (str): The password.
         
         Raises:

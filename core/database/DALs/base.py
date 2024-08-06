@@ -5,7 +5,7 @@ class BaseDAL:
         - This class is meant to be inherited by other Data Access Layer classes.
         - Placed as a precaution in case additional functionality is needed in the future.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     pass

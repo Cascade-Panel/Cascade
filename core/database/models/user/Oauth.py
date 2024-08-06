@@ -17,7 +17,7 @@ class Oauth(Base):
     """
         The Oauth model.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             oauth_type (String): The type of Oauth.
             oauth_account_identifier (Encrypted[String]): The identifier of the Oauth account.

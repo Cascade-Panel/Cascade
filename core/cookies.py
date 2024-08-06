@@ -10,7 +10,7 @@ def append_cookie(request: Request, response: json, key: str, value: str, http_o
     """
         Append a cookie to a response.
 
-        Attributes:
+        Args:
             request (Request): The request object.
             response (json): The response object.
             key (str): The key of the cookie.
@@ -39,7 +39,7 @@ def get_cookie(request: Request, key: str, algorithm: str = "HS256") -> str | No
     """
         Get a cookie from a request.
 
-        Attributes:
+        Args:
             request (Request): The request object.
             key (str): The key of the cookie.
             algorithm (str): The algorithm to use to decode the cookie.
@@ -60,7 +60,7 @@ def remove_cookie(response: json, key: str) -> response:
     """
         Remove a cookie from a response.
 
-        Attributes:
+        Args:
             request (Request): The request object.
             response (json): The response object.
             key (str): The key of the cookie.
@@ -75,7 +75,7 @@ def update_cookie(request: Request, response: json, key: str, value: str, http_o
     """
         Update a cookie in a response.
 
-        Attributes:
+        Args:
             request (Request): The request object.
             response (json): The response object.
             key (str): The key of the cookie.

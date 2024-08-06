@@ -9,7 +9,7 @@ class EnvManager:
         """
         Initialize the EnvManager class.
 
-        Attributes:
+        Args:
             env_file (str): Path to the .env file.
             env_values (dict): Dictionary of .env values.
         """

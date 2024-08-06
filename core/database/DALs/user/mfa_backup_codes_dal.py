@@ -11,7 +11,7 @@ class MfaBackupCodesDAL(BaseDAL):
     """
         Data Access Layer for managing MFA backup codes in the database.
 
-        Attributes:
+        Args:
             db_session (Session): The database session.
     """
     def __init__(self, db_session: Session) -> None:
@@ -21,7 +21,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Add a new MFA backup code to the database.
 
-            Attributes:
+            Args:
                 backup_code (MfaBackupCodes): The MFA backup code to add to the database.
             
             Returns:
@@ -36,7 +36,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Retrieve an MFA backup code from the database by its code.
 
-            Attributes:
+            Args:
                 code (str): The backup code to retrieve.
             
             Returns:
@@ -48,7 +48,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Retrieve all MFA backup codes for a specific user from the database.
 
-            Attributes:
+            Args:
                 user_uuid (UUID): The UUID of the user to retrieve backup codes for.
             
             Returns:
@@ -60,7 +60,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Update an MFA backup code in the database.
 
-            Attributes:
+            Args:
                 backup_code (MfaBackupCodes): The MFA backup code to update in the database.
             
             Returns:
@@ -74,7 +74,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Refresh an instance of an MFA backup code object from the database.
 
-            Attributes:
+            Args:
                 backup_code (MfaBackupCodes): The MFA backup code object to refresh.
             
             Returns:
@@ -87,7 +87,7 @@ class MfaBackupCodesDAL(BaseDAL):
         """
             Delete an MFA backup code from the database.
 
-            Attributes:
+            Args:
                 backup_code (MfaBackupCodes): The MFA backup code to delete from the database.
             
             Returns:

@@ -17,7 +17,7 @@ class MfaBackupCodes(Base):
     """
         The MfaBackupCodes model.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             code (String): The backup code. Hashed.
             created_at (DateTime): The date the backup code

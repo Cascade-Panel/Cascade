@@ -21,7 +21,7 @@ class PasswordReset(Base):
         The PasswordReset model.
         - A model to store the PasswordReset information.
 
-        Attributes:
+        Args:
             user_uuid (UUID): The UUID of the user.
             reset_code (Encrypted[String]): The reset code.
             code_expiry (Encrypted[DateTime]): The expiry date of the reset code.

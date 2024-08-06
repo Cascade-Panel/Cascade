@@ -5,7 +5,7 @@ class CacheStorageManager:
     """
         The main, public interface to the caching system.
 
-        Attributes:
+        Args:
             connector: The storage connector (e.g., SQLiteConnector, RedisConnector).
     """
     def __init__(self, connector: BaseConnector):
