@@ -7,6 +7,7 @@ from core.database.models.user.User import User
 from core.cache_storage.connectors.sqlite import SQLiteConnector
 from core.cache_storage.connectors.redis import RedisConnector
 from core.cache_storage.connectors.system import SystemConnector
+from core.cache_storage.connectors.memcached import MemcachedConnector
 
 class CacheManager:
     def __init__(self, connector_type: str, **kwargs):
@@ -23,6 +24,8 @@ class CacheManager:
             connector = RedisConnector(**kwargs)
         elif connector_type.lower() == 'system':
             connector = SystemConnector(**kwargs)
+        elif connector_type.lower() == 'memcached':
+            connector = MemcachedConnector(**kwargs)
         else:
             raise ValueError('Invalid connector type: {}'.format(connector_type))
         

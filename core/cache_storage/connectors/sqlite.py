@@ -1,3 +1,5 @@
+""" This module contains the SQLiteConnector class. """
+
 import aiosqlite
 import pickle
 import datetime

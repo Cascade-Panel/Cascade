@@ -1,3 +1,5 @@
+""" This module contains the SystemConnector class. """
+
 import pickle
 import datetime
 from core.cache_storage.connectors.base import BaseConnector

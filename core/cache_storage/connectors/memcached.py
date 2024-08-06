@@ -1,25 +1,26 @@
-""" This module contains the RedisConnector class that manages the Redis cache. """
+""" This module contains the MemcachedConnector class. """
 
-import aioredis
+import aiomcache
 import pickle
 from core.cache_storage.connectors.base import BaseConnector
 
-class RedisConnector(BaseConnector):
+class MemcachedConnector(BaseConnector):
     """
-    A caching manager that stores cache in a Redis database.
+    A caching manager that stores cache in a Memcached database.
 
     Args:
-        redis_url (str): The URL to connect to the Redis database.
+        memcached_url (str): The URL to connect to the Memcached server.
     """
-    def __init__(self, redis_url: str):
-        self.redis_url = redis_url
-        self.conn = None
+    def __init__(self, memcached_url: str):
+        self.memcached_url = memcached_url
+        self.client = None
 
     async def __async__init__(self, instance_name: str) -> None:
         """
-        Initializes the Redis connection.
+        Initializes the Memcached connection.
         """
-        self.conn = await aioredis.create_redis_pool(self.redis_url)
+        # Create a Memcached client
+        self.client = aiomcache.Client(self.memcached_url)
 
     async def get(self, instance_name: str, key: str):
         """
@@ -31,13 +32,13 @@ class RedisConnector(BaseConnector):
         Returns:
             The cached value if found, otherwise None.
         """
-        instance_key = f"{instance_name}:{key}"
-        value = await self.conn.get(instance_key)
+        instance_key = f"{instance_name}:{key}".encode()
+        value = await self.client.get(instance_key)
         if value:
             return pickle.loads(value)
         return None
 
-    async def set(self, instance_name: str, key: str, value, ttl=None):
+    async def set(self, instance_name: str, key: str, value, ttl=None) -> None:
         """
         Add a value to the cache.
 
@@ -46,19 +47,18 @@ class RedisConnector(BaseConnector):
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
         """
-        instance_key = f"{instance_name}:{key}"
+        instance_key = f"{instance_name}:{key}".encode()
         value = pickle.dumps(value, pickle.HIGHEST_PROTOCOL)
         if ttl:
-            await self.conn.setex(instance_key, ttl, value)
+            await self.client.set(instance_key, value, exptime=ttl)
         else:
-            await self.conn.set(instance_key, value)
+            await self.client.set(instance_key, value)
 
     async def clear_expired(self, instance_name: str) -> None:
         """
-        Clear expired cache entries from the Redis database.
-        This is typically managed automatically by Redis, so this method is just a placeholder.
+        Clear expired cache entries from the Memcached database.
         """
-        # Redis automatically handles expired keys, but you can run a manual expiration check if needed.
+        # Memcached handles expired keys automatically; this method is a placeholder.
         pass
 
     async def delete(self, instance_name: str, key: str) -> None:
@@ -68,5 +68,5 @@ class RedisConnector(BaseConnector):
         Args:
             key (str): The key of the cache.
         """
-        instance_key = f"{instance_name}:{key}"
-        await self.conn.delete(instance_key)
+        instance_key = f"{instance_name}:{key}".encode()
+        await self.client.delete(instance_key)
