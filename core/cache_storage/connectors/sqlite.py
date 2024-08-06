@@ -13,13 +13,14 @@ class SQLiteConnector(BaseConnector):
     def __init__(self, db_path: str):
         self.db_path = db_path
 
-    async def __async__init__(self) -> None:
+    async def __async__init__(self, instance_name: str) -> None:
         """
         Initializes the caching object and creates the cache table if it doesn't exist.
         """
+        table_name = f"cache_{instance_name}"
         async with aiosqlite.connect(self.db_path) as db:
-            await db.execute('''
-                CREATE TABLE IF NOT EXISTS cache (
+            await db.execute(f'''
+                CREATE TABLE IF NOT EXISTS {table_name} (
                     key TEXT PRIMARY KEY,
                     value BLOB,
                     ttl INTEGER,
@@ -28,7 +29,7 @@ class SQLiteConnector(BaseConnector):
             ''')
             await db.commit()
 
-    async def get(self, key: str) -> str | dict | list | tuple | object | callable:
+    async def get(self, instance_name: str, key: str):
         """
         Retrieve a value from the cache based on the key.
 
@@ -38,14 +39,15 @@ class SQLiteConnector(BaseConnector):
         Returns:
             The cached value if found, otherwise None.
         """
+        table_name = f"cache_{instance_name}"
         async with aiosqlite.connect(self.db_path) as db:
-            async with db.execute('SELECT value FROM cache WHERE key = ?', (key,)) as cursor:
+            async with db.execute(f'SELECT value FROM {table_name} WHERE key = ?', (key,)) as cursor:
                 row = await cursor.fetchone()
                 if row:
                     return pickle.loads(row[0])
                 return None
 
-    async def set(self, key: str, value: str | dict | list | tuple | object | callable, ttl=None) -> None:
+    async def set(self, instance_name: str, key: str, value, ttl=None) -> None:
         """
         Add a value to the cache.
 
@@ -54,29 +56,32 @@ class SQLiteConnector(BaseConnector):
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
         """
+        table_name = f"cache_{instance_name}"
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute(
-                'INSERT OR REPLACE INTO cache (key, value, ttl) VALUES (?, ?, ?)',
+                f'INSERT OR REPLACE INTO {table_name} (key, value, ttl) VALUES (?, ?, ?)',
                 (key, pickle.dumps(value, pickle.HIGHEST_PROTOCOL), ttl)
             )
             await db.commit()
 
-    async def clear_expired(self) -> None:
+    async def clear_expired(self, instance_name: str) -> None:
         """
         Clear expired cache entries from the SQLite database.
         """
+        table_name = f"cache_{instance_name}"
         async with aiosqlite.connect(self.db_path) as db:
             current_time = int(datetime.datetime.now().timestamp())
-            await db.execute('DELETE FROM cache WHERE ttl IS NOT NULL AND (cached_at + ttl) < ?', (current_time,))
+            await db.execute(f'DELETE FROM {table_name} WHERE ttl IS NOT NULL AND (cached_at + ttl) < ?', (current_time,))
             await db.commit()
 
-    async def delete(self, key: str) -> None:
+    async def delete(self, instance_name: str, key: str) -> None:
         """
         Remove a value from the cache based on the key.
 
         Args:
             key (str): The key of the cache.
         """
+        table_name = f"cache_{instance_name}"
         async with aiosqlite.connect(self.db_path) as db:
-            await db.execute('DELETE FROM cache WHERE key = ?', (key,))
+            await db.execute(f'DELETE FROM {table_name} WHERE key = ?', (key,))
             await db.commit()

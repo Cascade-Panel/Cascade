@@ -13,13 +13,13 @@ class RedisConnector(BaseConnector):
         self.redis_url = redis_url
         self.conn = None
 
-    async def async__init__(self):
+    async def __async__init__(self, instance_name: str) -> None:
         """
         Initializes the Redis connection.
         """
         self.conn = await aioredis.create_redis_pool(self.redis_url)
 
-    async def get(self, key):
+    async def get(self, instance_name: str, key: str):
         """
         Retrieve a value from the cache based on the key.
 
@@ -29,12 +29,13 @@ class RedisConnector(BaseConnector):
         Returns:
             The cached value if found, otherwise None.
         """
-        value = await self.conn.get(key)
+        instance_key = f"{instance_name}:{key}"
+        value = await self.conn.get(instance_key)
         if value:
             return pickle.loads(value)
         return None
 
-    async def set(self, key, value, ttl=None):
+    async def set(self, instance_name: str, key: str, value, ttl=None):
         """
         Add a value to the cache.
 
@@ -43,13 +44,14 @@ class RedisConnector(BaseConnector):
             value: The value to be cached.
             ttl (int, optional): The time-to-live in seconds. Defaults to None.
         """
+        instance_key = f"{instance_name}:{key}"
         value = pickle.dumps(value, pickle.HIGHEST_PROTOCOL)
         if ttl:
-            await self.conn.setex(key, ttl, value)
+            await self.conn.setex(instance_key, ttl, value)
         else:
-            await self.conn.set(key, value)
+            await self.conn.set(instance_key, value)
 
-    async def clear_expired(self):
+    async def clear_expired(self, instance_name: str) -> None:
         """
         Clear expired cache entries from the Redis database.
         This is typically managed automatically by Redis, so this method is just a placeholder.
@@ -57,11 +59,12 @@ class RedisConnector(BaseConnector):
         # Redis automatically handles expired keys, but you can run a manual expiration check if needed.
         pass
 
-    async def delete(self, key):
+    async def delete(self, instance_name: str, key: str) -> None:
         """
         Remove a value from the cache based on the key.
 
         Args:
             key (str): The key of the cache.
         """
-        await self.conn.delete(key)
+        instance_key = f"{instance_name}:{key}"
+        await self.conn.delete(instance_key)

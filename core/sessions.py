@@ -4,6 +4,10 @@ from sqlalchemy import Uuid
 from core.cache_storage import CacheStorageManager
 from core.database.models.user.User import User
 
+from core.cache_storage.connectors.sqlite import SQLiteConnector
+from core.cache_storage.connectors.redis import RedisConnector
+from core.cache_storage.connectors.system import SystemConnector
+
 class SessionManager:
     def __init__(self, connector_type: str, **kwargs):
         """
@@ -14,16 +18,15 @@ class SessionManager:
             kwargs: Additional keyword arguments to pass to the connector.
         """
         if connector_type.lower() == 'sqlite':
-            from core.cache_storage.connectors.sqlite import SQLiteConnector
-            self.sessions = CacheStorageManager(SQLiteConnector(**kwargs))
+            connector = SQLiteConnector(**kwargs)
         elif connector_type.lower() == 'redis':
-            from core.cache_storage.connectors.redis import RedisConnector
-            self.sessions = CacheStorageManager(RedisConnector(**kwargs))
+            connector = RedisConnector(**kwargs)
         elif connector_type.lower() == 'system':
-            from core.cache_storage.connectors.system import SystemConnector
-            self.sessions = CacheStorageManager(SystemConnector(**kwargs))
+            connector = SystemConnector(**kwargs)
         else:
-            raise ValueError(f"Invalid connector type: {connector_type}")
+            raise ValueError('Invalid connector type: {}'.format(connector_type))
+
+        self.cache = CacheStorageManager(connector, 'sessions')
 
     async def __async__init__(self) -> None:
         """

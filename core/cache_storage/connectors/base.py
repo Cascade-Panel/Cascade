@@ -10,13 +10,13 @@ class BaseConnector:
     def __init__(self, connection):
         self.connection = connection
 
-    async def __async__init__(self) -> None:
+    async def __async__init__(self, instance_name: str) -> None:
         """
         Initializes the caching object.
         """
         raise NotImplementedError
 
-    async def get(self, key) -> str | dict | list | tuple | object | callable:
+    async def get(self, instance_name: str, key: str):
         """
         Retrieve a value from the cache based on the key.
 
@@ -25,7 +25,7 @@ class BaseConnector:
         """
         raise NotImplementedError
 
-    async def set(self, key, value, ttl=None) -> None:
+    async def set(self, instance_name: str, key: str, value, ttl=None) -> None:
         """
         Add a value to the cache.
 
@@ -36,7 +36,7 @@ class BaseConnector:
         """
         raise NotImplementedError
 
-    async def clear_expired(self) -> None:
+    async def clear_expired(self, instance_name: str) -> None:
         """
         Clear expired cache entries from the storage system
 
@@ -45,7 +45,7 @@ class BaseConnector:
         """
         raise NotImplementedError
 
-    async def delete(self, key) -> None:
+    async def delete(self, instance_name: str, key: str) -> None:
         """
         Remove a value from the cache based on the key.
 
