@@ -1,4 +1,5 @@
 """ Server events for the application. """
+import asyncio
 from sanic import Sanic
 from asyncio import AbstractEventLoop
 from core.database import init_db, close_db
@@ -7,6 +8,17 @@ from core.sessions import SessionManager
 from core.cache import CacheManager
 from core.authentication import get_user
 from core.config import init_config
+
+async def clear_expired_storage(app: Sanic) -> None:
+    """
+        Clear expired cache entries from the storage.
+
+        Args:
+            app (Sanic): The Sanic application.
+    """
+    await app.ctx.cache_manager.clear_expired()
+    await app.ctx.session_manager.clear_expired()
+    await asyncio.sleep(app.ctx.env_manager.get("CACHE_EXPIRATION_INTERVAL"))
 
 async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """
@@ -53,7 +65,9 @@ async def after_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
             app (Sanic): The Sanic application.
             loop (asyncio.AbstractEventLoop): The event loop.
     """
-    pass
+    # Do something in a loop in the background every x seconds
+
+    app.add_task(clear_expired_storage(app))
 
 async def before_server_stop(app: Sanic, loop: AbstractEventLoop) -> None:
     """
