@@ -1,6 +1,6 @@
 # Cascade
 
-**Cascade** is a versatile platform for managing Incus servers through a user-friendly web interface. It supports the creation, management, modification, and deletion of application containers, system containers, and virtual machines (VMs) all from a single dashboard. Users can select and purchase plans to access specific features or instances, offering extensive capabilities similar to Pterodactyl but with broader functionality.
+**Cascade** is a versatile platform for managing Incus instances through a user-friendly web interface. It supports the creation, management, modification, and deletion of application containers, system containers, and virtual machines (VMs) all from a single dashboard. Users can select and purchase plans to access specific features or instances, offering extensive capabilities similar to Pterodactyl but with broader functionality.
 
 Cascade also features a configurable API that supports running multiple versions concurrently, and a JWT cookie-based system for secure communication between the backend and the web UI.
 
