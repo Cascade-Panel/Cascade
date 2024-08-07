@@ -7,7 +7,7 @@ from sanic import text
 from sanic_ext import validate
 from sanic.response import HTTPResponse
 from core.database.models.user.User import User
-from core.decorators import restrict_to_mfa_login
+from core.decorators import protected
 
 class IndexView(HTTPMethodView):
     """The index view."""
@@ -37,8 +37,8 @@ class IndexView(HTTPMethodView):
 
         return await text('I am a protected post method with json body and user object injected.')
 
-    @restrict_to_mfa_login
-    async def put(self, request: Request, user: User) -> HTTPResponse:
+    @protected(inject=True, mfa_logging_in_only=True)
+    async def put(self, request: Request, user) -> HTTPResponse:
         """
             Handles PUT requests to the index view.
         """
