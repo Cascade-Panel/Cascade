@@ -54,6 +54,9 @@ async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
         app.ctx.session_manager = SessionManager(connector_type="memcached", memcached_url=app.ctx.env_manager.get("MEMCACHED_URL"))
         app.ctx.cache_manager = CacheManager(connector_type="memcached", memcached_url=app.ctx.env_manager.get("MEMCACHED_URL"))
 
+    await app.ctx.cache_manager.__async__init__()
+    await app.ctx.session_manager.__async__init__()
+
     # Adding user dependency if it has type hint `: User`
     app.ext.add_dependency(User, get_user)
 
