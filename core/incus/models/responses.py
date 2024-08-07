@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from core.incus.metadata import OperationMetadata
+from core.incus.models.metadata import OperationMetadata
 
 class StandardResponse(BaseModel):
     type: str
