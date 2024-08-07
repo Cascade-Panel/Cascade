@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Dict, Union
+import uuid
 from sqlalchemy import Uuid
 from core.cache_storage import CacheStorageManager
 from core.database.models.user.User import User
@@ -29,7 +30,7 @@ class SessionManager:
         else:
             raise ValueError('Invalid connector type: {}'.format(connector_type))
 
-        self.cache = CacheStorageManager(connector, 'sessions')
+        self.sessions = CacheStorageManager(connector, 'sessions')
 
     async def __async__init__(self) -> None:
         """
@@ -65,7 +66,8 @@ class SessionManager:
             'user_uuid': user_uuid,
             'created_at': datetime.now(),
             'ip_address': ip_address,
-            'is_logging_in_with_mfa': is_logging_in_with_mfa
+            'is_logging_in_with_mfa': is_logging_in_with_mfa,
+            'session_id': session_id
         }
         await self.sessions.set(session_id, session_info, ttl=ttl)
 
@@ -83,3 +85,25 @@ class SessionManager:
         Clear expired sessions from the cache.
         """
         await self.sessions.clear_expired()
+
+    async def get_all(self, user: User) -> Dict[str, Union[Uuid, str, datetime, bool]]:
+        """
+        Retrieve all user session info from the cache based on the user.
+
+        Args:
+            user: The user to retrieve sessions for.
+
+        Returns:
+            The user session info.
+        """
+        user_sessions = await self.sessions.get_all(user.uuid)
+        return user_sessions
+    
+    def gen_session_id(self) -> str:
+        """
+        Generate a new session ID.
+
+        Returns:
+            A new session ID.
+        """
+        return str(uuid.uuid4())

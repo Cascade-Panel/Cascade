@@ -29,3 +29,6 @@ class CacheStorageManager:
 
     async def delete(self, key: str) -> None:
         await self.connector.delete(self.instance_name, key)
+
+    async def get_all_values(self) -> list:
+        return await self.connector.get_all_values(self.instance_name)

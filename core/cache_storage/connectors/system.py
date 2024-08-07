@@ -68,3 +68,12 @@ class SystemConnector(BaseConnector):
         """
         if key in self.store[instance_name]:
             del self.store[instance_name][key]
+
+    async def get_all_values(self, instance_name: str) -> list:
+        """
+        Retrieve all values from the cache.
+
+        Returns:
+            list: All values in the cache.
+        """
+        return self.store[instance_name].values()

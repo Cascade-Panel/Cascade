@@ -87,3 +87,16 @@ class SQLiteConnector(BaseConnector):
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute(f'DELETE FROM {table_name} WHERE key = ?', (key,))
             await db.commit()
+
+    async def get_all_values(self, instance_name: str) -> list:
+        """
+        Retrieve all values from the cache.
+
+        Returns:
+            list: All values in the cache.
+        """
+        table_name = f"cache_{instance_name}"
+        async with aiosqlite.connect(self.db_path) as db:
+            async with db.execute(f'SELECT value FROM {table_name}') as cursor:
+                rows = await cursor.fetchall()
+                return [pickle.loads(row[0]) for row in rows] if rows else []

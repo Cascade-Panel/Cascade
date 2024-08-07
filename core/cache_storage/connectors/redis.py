@@ -70,3 +70,17 @@ class RedisConnector(BaseConnector):
         """
         instance_key = f"{instance_name}:{key}"
         await self.conn.delete(instance_key)
+
+    async def get_all_values(self, instance_name: str) -> list:
+        """
+        Retrieve all values from the cache.
+
+        Returns:
+            list: All values in the cache.
+        """
+        keys = await self.conn.keys(f"{instance_name}:*")
+        values = []
+        for key in keys:
+            value = await self.conn.get(key)
+            values.append(pickle.loads(value))
+        return values

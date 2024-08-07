@@ -70,3 +70,17 @@ class MemcachedConnector(BaseConnector):
         """
         instance_key = f"{instance_name}:{key}".encode()
         await self.client.delete(instance_key)
+
+    async def get_all_values(self, instance_name: str) -> list:
+        """
+        Retrieve all values from the cache.
+
+        Returns:
+            list: All values in the cache.
+        """
+        keys = await self.client._execute_simple_command(conn=self.client, command=b'keys', key=instance_name.encode())
+        values = []
+        for key in keys:
+            value = await self.client.get(key)
+            values.append(pickle.loads(value))
+        return values
