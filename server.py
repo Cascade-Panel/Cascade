@@ -10,9 +10,9 @@ app = Sanic(env_manager.get("APP_NAME"))
 app.config.CORS_ORIGINS = "*"
 app.ctx.env_manager = env_manager
 
-app.before_server_start(before_server_start, priority=0)
-app.after_server_start(after_server_start, priority=0)
-app.before_server_stop(before_server_stop, priority=0)
+app.register_listener(before_server_start, "before_server_start")
+app.register_listener(after_server_start, "after_server_start")
+app.register_listener(before_server_stop, "before_server_stop")
 
 for blueprint in blueprints:
     if blueprint.version in env_manager.get("ACTIVE_VERSIONS"):
