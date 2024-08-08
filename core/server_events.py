@@ -16,9 +16,10 @@ async def clear_expired_storage(app: Sanic) -> None:
         Args:
             app (Sanic): The Sanic application.
     """
-    await app.ctx.cache_manager.clear_expired()
-    await app.ctx.session_manager.clear_expired()
-    await asyncio.sleep(app.ctx.env_manager.get("CACHE_EXPIRATION_INTERVAL"))
+    while True:
+        await app.ctx.cache_manager.clear_expired()
+        await app.ctx.session_manager.clear_expired()
+        await asyncio.sleep(app.ctx.env_manager.get("CACHE_EXPIRATION_INTERVAL"))
 
 async def before_server_start(app: Sanic, loop: AbstractEventLoop) -> None:
     """
