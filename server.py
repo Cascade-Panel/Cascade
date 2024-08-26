@@ -8,9 +8,7 @@ from custom_types import MyTypedContext
 
 env_manager = EnvManager()
 
-app = Sanic(env_manager.get("APP_NAME"))
-
-app: Sanic[Config, MyTypedContext] = app
+app: Sanic[Config, MyTypedContext] = Sanic(env_manager.get("APP_NAME"))
 ## The above should allow app.ctx to be
 ## typed throughout the project.
 
