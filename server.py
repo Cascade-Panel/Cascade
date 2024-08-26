@@ -9,8 +9,7 @@ from custom_types import MyTypedContext
 env_manager = EnvManager()
 
 app: Sanic[Config, MyTypedContext] = Sanic(env_manager.get("APP_NAME"))
-## The above should allow app.ctx to be
-## typed throughout the project.
+## The above should allow app.ctx to be typed throughout this file
 
 app.config.CORS_ORIGINS = "*"
 app.ctx.env_manager = env_manager
