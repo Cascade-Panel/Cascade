@@ -2,10 +2,17 @@ from sanic import Sanic
 from blueprints import blueprints
 from core.env_manager import EnvManager
 from core.server_events import before_server_start, after_server_start, before_server_stop
+from sanic.config import Config
+
+from custom_types import MyTypedContext
 
 env_manager = EnvManager()
 
 app = Sanic(env_manager.get("APP_NAME"))
+
+app: Sanic[Config, MyTypedContext] = app
+## The above should allow app.ctx to be
+## typed throughout the project.
 
 app.config.CORS_ORIGINS = "*"
 app.ctx.env_manager = env_manager
