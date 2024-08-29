@@ -1,75 +1,86 @@
-import aiohttp
-from typing import Optional, Dict, Any
-from pydantic import ValidationError
-from models import Server, ServerPut, StandardResponse, ErrorResponse
-from core.type_hints import Url
+# incus_sdk/client.py
 
-class Incus:
-    def __init__(self, external_url: Url):
-        self.external_url = external_url
-        self.session = aiohttp.ClientSession()
-        self.base_url = external_url.strip("/")
+import aiohttp
+from typing import Optional
+from .exceptions import IncusAPIError
+from .api.instance import InstanceAPI
+from .api.cluster import ClusterAPI
+from .api.certificate import CertificateAPI
+from .api.server import ServerAPI
+from .api.network import NetworkAPI
+from .api.profile import ProfileAPI
+from .api.storage import StorageAPI
+
+class IncusClient:
+    def __init__(self, base_url: str, api_key: Optional[str] = None):
+        """
+        Initialize the Incus API client.
+
+        Args:
+            base_url (str): The base URL of the Incus API.
+            api_key (Optional[str]): The API key for authentication.
+        """
+        self.base_url = base_url.rstrip('/')
+        self.api_key = api_key
+        self.session: Optional[aiohttp.ClientSession] = None
+        
+        # Initialize API endpoints
+        self.instances = InstanceAPI(self)
+        self.clusters = ClusterAPI(self)
+        self.certificates = CertificateAPI(self)
+        self.servers = ServerAPI(self)
+        self.networks = NetworkAPI(self)
+        self.profiles = ProfileAPI(self)
+        self.storage = StorageAPI(self)
 
     async def __aenter__(self):
-        await self.__async_init()
+        await self.connect()
         return self
 
-    async def __aexit__(self, exc_type, exc, tb):
-        await self.session.close()
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
 
-    async def __async_init(self) -> None:
-        """
-        Initialize the Incus client by retrieving the supported API versions
-        and setting the base URL to the latest version.
-        """
-        async with self.session.get(self.base_url) as response:
-            if response.status != 200:
-                raise Exception(f"Failed to initialize Incus: {response.status}")
-            
-            data = await response.json()
-            self.incus_versions = data.get('metadata', [])
-            if not self.incus_versions:
-                raise Exception("No API versions found")
-            
-            latest_version = self.incus_versions[-1]
-            self.base_url += latest_version
+    async def connect(self):
+        """Establish the aiohttp client session."""
+        if self.session is None or self.session.closed:
+            self.session = aiohttp.ClientSession(headers=self._get_headers())
 
-    async def _request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
-        """
-        Generalized request method to handle GET, PATCH, PUT requests.
-        """
-        url = f"{self.base_url}{endpoint}"
-        async with getattr(self.session, method)(url, **kwargs) as response:
-            response_json = await response.json()
-            if response.status == 200:
-                try:
-                    return StandardResponse(**response_json)
-                except ValidationError as e:
-                    raise Exception(f"Response validation failed: {e}")
-            elif 400 <= response.status < 500:
-                try:
-                    return ErrorResponse(**response_json)
-                except ValidationError as e:
-                    raise Exception(f"Error response validation failed: {e}")
-            else:
-                raise Exception(f"Unexpected status code: {response.status}")
+    async def close(self):
+        """Close the aiohttp client session."""
+        if self.session and not self.session.closed:
+            await self.session.close()
 
-    async def environment(self, target: str, project: Optional[str] = None) -> Server:
+    def _get_headers(self):
+        """Get the headers for API requests."""
+        headers = {
+            "Content-Type": "application/json",
+        }
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+        return headers
+
+    async def request(self, method: str, endpoint: str, **kwargs):
         """
-        Get the environment of the Incus server.
+        Make an HTTP request to the Incus API.
+
+        Args:
+            method (str): The HTTP method (GET, POST, PUT, DELETE, etc.).
+            endpoint (str): The API endpoint.
+            **kwargs: Additional arguments to pass to the request.
+
+        Returns:
+            dict: The JSON response from the API.
+
+        Raises:
+            IncusAPIError: If the API returns an error.
         """
-        params = {'target': target}
-        if project:
-            params['project'] = project
+        if not self.session or self.session.closed:
+            await self.connect()
+
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
         
-        response = await self._request('get', "/1.0", params=params)
-        return Server(**response.metadata)
-
-    async def update_server_configuration(self, target: str, config: ServerPut, patch: bool = False) -> StandardResponse:
-        """
-        Update the server configuration.
-        """
-        params = {'target': target}
-        method = 'patch' if patch else 'put'
-        response = await self._request(method, "/1.0", json=config.dict(), params=params)
-        return response
+        async with self.session.request(method, url, **kwargs) as response:
+            if response.status >= 400:
+                error_message = await response.text()
+                raise IncusAPIError(f"API request failed: {response.status} {response.reason}\n{error_message}")
+            return await response.json()
